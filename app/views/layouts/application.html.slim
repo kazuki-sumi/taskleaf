@@ -1,0 +1,25 @@
+doctype html
+html
+  head
+    title
+      | Taskleaf
+    = csrf_meta_tags
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+  body
+    .app-title.navbar.navbar-expand-md.navbar-light.bg-light
+      .navbar-brand Taskleaf
+      
+      ul.navbar-nav.ml-auto
+        - if current_user
+          li.nav-item = link_to 'タスク一覧', tasks_path, class: 'nav-link'
+          - if current_user.admin?
+            li.nab-item = link_to 'ユーザー一覧', admin_users_path, class: 'nav-link'
+          li.nav-item = link_to 'ログアウト', logout_path, method: :delete, class: 'nav-link'
+        - else
+          li.nav-item = link_to 'ログイン', login_path, class: 'nav-link'
+          li.nav-item = link_to '新規作成', new_admin_user_path, class: 'nav-link'
+    .container
+      - if flash.notice.present?
+        .aleert.alert-success = flash.notice
+      = yield
